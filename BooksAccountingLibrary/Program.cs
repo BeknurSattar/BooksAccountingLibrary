@@ -7,13 +7,11 @@ namespace BooksAccountingLibrary
     // Определение класса Book
     class Book
     {
-        // Свойства, представляющие детали книги
         public string Title { get; set; }
         public string Author { get; set; }
         public int Year { get; set; }
         public string Genre { get; set; }
 
-        // Конструктор для инициализации объекта Book
         public Book(string title, string author, int year, string genre)
         {
             Title = title;
@@ -22,7 +20,6 @@ namespace BooksAccountingLibrary
             Genre = genre;
         }
 
-        // Переопределение метода ToString для предоставления строкового представления книги
         public override string ToString()
         {
             return $"Название: {Title}, Автор: {Author}, Год выпуска: {Year}, Жанр: {Genre}";
@@ -32,10 +29,8 @@ namespace BooksAccountingLibrary
     // Определение класса программы
     class Program
     {
-        // Список для хранения объектов Book, представляющих библиотеку
         static List<Book> library = new List<Book>();
 
-        // Имя файла для сохранения и загрузки данных библиотеки
         static string fileName = "library.txt";
 
         // Метод для добавления книги в библиотеку
@@ -43,7 +38,6 @@ namespace BooksAccountingLibrary
         {
             do
             {
-                // Ввод пользователем деталей книги
                 Console.WriteLine("Введите название книги:");
                 string title = ReadNonEmptyString();
 
@@ -61,12 +55,11 @@ namespace BooksAccountingLibrary
                     Console.WriteLine("Введите год выпуска:");
                     if (int.TryParse(ReadNonEmptyString(), out year))
                     {
-                        // Получение текущего года
                         int currentYear = DateTime.Now.Year;
 
                         if (year <= currentYear)
                         {
-                            break; // Выход из цикла при успешном вводе года
+                            break;
                         }
                         else
                         {
@@ -87,7 +80,6 @@ namespace BooksAccountingLibrary
                     genre = ReadNonEmptyString();
                 }
 
-                // Создание объекта Book и добавление его в библиотеку
                 Book book = new Book(title, author, year, genre);
                 library.Add(book);
                 Console.WriteLine("Книга успешно добавлена.");
@@ -125,7 +117,6 @@ namespace BooksAccountingLibrary
             Console.WriteLine("Введите номер книги для удаления:");
             if (int.TryParse(Console.ReadLine(), out int index) && index >= 1 && index <= library.Count)
             {
-                // Удаление книги по указанному индексу
                 library.RemoveAt(index - 1);
                 Console.WriteLine("Книга успешно удалена.");
             }
@@ -144,7 +135,6 @@ namespace BooksAccountingLibrary
             }
             else
             {
-                // Отображение каждой книги в библиотеке с ее индексом
                 for (int i = 0; i < library.Count; i++)
                 {
                     Console.WriteLine($"{i + 1}. {library[i]}");
@@ -155,7 +145,6 @@ namespace BooksAccountingLibrary
         // Метод для сохранения библиотеки в файл
         static void SaveLibrary()
         {
-            // Использование StreamWriter для записи деталей книг в файл
             using (StreamWriter writer = new StreamWriter(fileName))
             {
                 foreach (var book in library)
@@ -171,22 +160,18 @@ namespace BooksAccountingLibrary
         {
             if (File.Exists(fileName))
             {
-                // Чтение всех строк из файла
                 string[] lines = File.ReadAllLines(fileName);
                 foreach (var line in lines)
                 {
-                    // Разделение каждой строки на части с использованием запятой
                     string[] parts = line.Split(',');
                     if (parts.Length == 4)
                     {
-                        // Разбор и создание объекта Book из частей
                         string title = parts[0];
                         string author = parts[1];
                         if (int.TryParse(parts[2], out int year))
                         {
                             string genre = parts[3];
                             Book book = new Book(title, author, year, genre);
-                            // Добавление книги в библиотеку
                             library.Add(book);
                         }
                         else
@@ -216,7 +201,6 @@ namespace BooksAccountingLibrary
         // Главный метод, точка входа в программу
         static void Main(string[] args)
         {
-            // Загрузка данных библиотеки из файла
             LoadLibrary();
 
             while (true)
@@ -243,14 +227,12 @@ namespace BooksAccountingLibrary
                         Console.ReadLine();
                         break;
                     case "5":
-                        // Перед выходом спрашиваем пользователя, хочет ли он сохранить изменения
                         Console.WriteLine("Хотите сохранить изменения перед выходом? (да/нет)");
                         string saveChoice = Console.ReadLine().Trim();
                         if (saveChoice.Equals("да", StringComparison.OrdinalIgnoreCase))
                         {
                             SaveLibrary();
                         }
-                        // Выход из программы
                         Console.WriteLine("Нажмите Enter для выхода.");
                         Console.ReadLine();
                         return;

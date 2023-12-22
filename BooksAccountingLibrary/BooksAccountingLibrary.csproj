@@ -72,8 +72,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Book\Book.cs" />
-    <Compile Include="Book\LibraryManager.cs" />
+    <Compile Include="BookLib\Book.cs" />
+    <Compile Include="BookLib\LibraryManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

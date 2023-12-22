@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Configuration;
 
-namespace BooksAccountingLibrary.Book
+namespace BooksAccountingLibrary.BookLib
 {
     // Класс для работы с файлом
     public class LibraryManager
@@ -12,12 +12,6 @@ namespace BooksAccountingLibrary.Book
         public static string fileName = ConfigurationManager.AppSettings[FileNameKey];
 
         static List<Book> library = new List<Book>();
-
-        private const string ShowLibraryAction = "1";
-        private const string AddBookAction = "2";
-        private const string RemoveBookAction = "3";
-        private const string SaveLibraryAction = "4";
-        private const string ExitAction = "5";
 
         // Метод для отображения основного меню
         public static void DisplayMenu()

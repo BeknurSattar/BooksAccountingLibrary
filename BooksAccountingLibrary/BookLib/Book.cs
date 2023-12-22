@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BooksAccountingLibrary.Book
+namespace BooksAccountingLibrary.BookLib
 {
     // Класс Book
     class Book

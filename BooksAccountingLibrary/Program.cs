@@ -1,58 +1,50 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Configuration;
-using BooksAccountingLibrary.Book;
+using BooksAccountingLibrary.BookLib;
 using Serilog;
-using Serilog.Debugging;
-
 
 namespace BooksAccountingLibrary
 {
     class Program
     {
-        // Главный метод, точка входа в программу
+        private const string ShowLibraryAction = "1";
+        private const string AddBookAction = "2";
+        private const string RemoveBookAction = "3";
+        private const string SaveLibraryAction = "4";
+        private const string ExitAction = "5";
+
         static void Main(string[] args)
         {
+            Log.Logger = new LoggerConfiguration()
+                .WriteTo.Console()
+                .WriteTo.File("log.txt")
+                .CreateLogger();
 
             try
-
             {
                 LibraryManager.LoadLibrary();
 
                 while (true)
                 {
-                    Log.Logger = new LoggerConfiguration()
-                        .WriteTo.Console()
-                        .WriteTo.File("log.txt")
-                        .CreateLogger();
-
-                    Log.Information("Informational message");
-                    Log.Warning("Warning message");
-                    Log.Error("Error message");
-                    Log.Fatal("Critical message");
-
-                    Log.CloseAndFlush();
-                    // Отображение основного меню и получение ввода пользователя
                     LibraryManager.DisplayMenu();
                     string choice = Console.ReadLine();
 
                     switch (choice)
                     {
-                        case "1":
+                        case ShowLibraryAction:
                             LibraryManager.ShowLibrary();
                             break;
-                        case "2":
+                        case AddBookAction:
                             LibraryManager.AddBook();
                             break;
-                        case "3":
+                        case RemoveBookAction:
                             LibraryManager.RemoveBook();
                             break;
-                        case "4":
+                        case SaveLibraryAction:
                             LibraryManager.SaveLibrary();
                             Console.WriteLine("Нажмите Enter чтобы продолжить.");
+                            Console.ReadLine();
                             break;
-                        case "5":
+                        case ExitAction:
                             Console.WriteLine("Хотите сохранить изменения перед выходом? (да/нет)");
                             string saveChoice = Console.ReadLine().Trim();
                             if (saveChoice.Equals("да", StringComparison.OrdinalIgnoreCase))
@@ -60,6 +52,7 @@ namespace BooksAccountingLibrary
                                 LibraryManager.SaveLibrary();
                             }
                             Console.WriteLine("Нажмите Enter для выхода.");
+                            Console.ReadLine();
                             return;
                         default:
                             Console.WriteLine("Неверный выбор. Попробуйте еще раз.");
@@ -71,7 +64,11 @@ namespace BooksAccountingLibrary
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Произошла ошибка: {ex.Message}");
+                Log.Error(ex, "Произошла ошибка: {Message}", ex.Message);
+            }
+            finally
+            {
+                Log.CloseAndFlush();
             }
         }
     }
